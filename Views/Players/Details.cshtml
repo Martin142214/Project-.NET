@@ -1,0 +1,37 @@
+﻿@model HomeDetailsViewModels
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+    @{
+        ViewBag.Title = "Player details";
+        }
+
+    </title>
+</head>
+<body>
+    
+
+   
+    <div class="card m-3">
+        <div class="card-header">
+            <h2> @Model.Player.Name's information</h2>
+        </div>
+        <div class="card-body">
+            <img src="~/Images/myPortrait.jpg" class="rounded-circle" height="300" width="300" />
+            <div>
+                <div class="bg-light">
+                    <h4>ID --> @Model.Player.Id</h4>
+                    <h4>Age --> @Model.Player.Age</h4>
+                    <h4>Points --> @Model.Player.Points</h4>
+                    <h4>Country --> @Model.Player.Country</h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-footer text-center">
+            <a asp-controller="players" asp-action="players" class="btn btn-primary m-1">Return</a>
+        </div>
+    </div>
+</body>
+</html>

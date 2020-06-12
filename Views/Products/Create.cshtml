@@ -1,0 +1,66 @@
+﻿@model ProductCreateViewModel
+
+@{
+    ViewBag.Title = "Add a new product";
+}
+
+<div style="background-image: url('../../Images/banner-1503398740-670x370.png'); background-size: cover; background-position:center;">
+    <div class="container-fluid">
+        <h3 class="text-warning font-italic">Create your product:</h3>
+        <hr />
+        <div class="row">
+            <div class="col-md-3 bg-light">
+                <form enctype="multipart/form-data" asp-controller="products" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Brand" class="control-label"></label>
+                        <input asp-for="Brand" class="form-control" />
+                        <span asp-validation-for="Brand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Modell" class="control-label"></label>
+                        <input asp-for="Modell" class="form-control" />
+                        <span asp-validation-for="Modell" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Photo" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="Photo" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Select a file</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <a asp-controller="products" asp-action="products" class="btn btn-primary m-1">Back to list</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    $(Document).ready(function () {
+        $('.custom-file-input').on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    })
+    </script>
+}

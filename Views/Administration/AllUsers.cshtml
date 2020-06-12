@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityUser>
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+
+<h4>List of users</h4>
+<hr />
+@if (Model.Any())
+{
+    foreach (var user in Model)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <h6>Role ID: @user.Id</h6>
+                <hr />
+                <h6>RoleName: @user.UserName</h6>
+
+                <a class="btn btn-primary" style="width:auto" asp-action="EditRole"
+                   asp-controller="Administration">Edit</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h4> No users yet!</h4>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h6>Push the button below to register a new user</h6>
+
+            <a class="btn btn-primary" style="width:auto" asp-action="Register"
+               asp-controller="Account">Register a new user</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Comments>
+@using Microsoft.AspNetCore
+
+
+<h4>Comments:</h4>
+
+
+@if (Model != null)
+{
+    foreach (var comment in Model)
+    {
+        <div class="form-group">
+            <h4>Comment: @comment.Title left by @comment.User.UserName about @comment.Product.ProductName product</h4>
+            <p>@comment.Content</p>
+        </div>
+    }
+}

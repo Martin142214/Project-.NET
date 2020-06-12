@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Player>
+
+@{
+    ViewBag.Title = "Players in our club";
+}
+
+<div class="row">
+    <a class="portfolio-link" data-toggle="modal">
+
+        <form asp-action="FindPlayer" asp-controller="home" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Search: <input type="text" name="SearchString" />
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <a asp-controller="players" asp-action="create" class="btn btn-primary">Create a new player</a>
+                </p>
+            </div>
+        </form>
+        <div class="card-deck">
+            @foreach (var player in Model)
+            {
+                <div class="card m-3">
+                    <div class="card-header">
+                        <h3>@player.Name</h3>
+                    </div>
+                    <div class="card-body">
+                        <img src="~/Images/myPortrait.jpg" class="rounded-circle" height="300" width="300" />
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-controller="players" asp-action="details" asp-route-id="@player.Id"
+                           class="btn btn-secondary m-1">View</a>
+                        <a asp-controller="players" asp-action="edit" asp-route-id="@player.Id"
+                           class="btn btn-secondary m-1">Edit</a>
+                        <a asp-controller="players" asp-action="delete"
+                           asp-route-id="@player.Id" class="btn btn-secondary m-1">Delete</a>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </a>
+</div>

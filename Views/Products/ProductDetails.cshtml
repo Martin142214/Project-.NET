@@ -1,0 +1,50 @@
+﻿@model ProductDetailsViewModel 
+
+@{
+    ViewBag.Title = "Buy a product";
+}
+
+<div class="container-fluid container-lg">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="img-fluid">
+                <img src="~/Images/NIKE vapormax.jpg" class="rounded-circle" height="600" width="500" />
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <header class="card-header">
+                <h1 class="card-title">@Model.Product.Brand : @Model.Product.ProductName</h1>
+                <h4> Items left: @Model.Product.Quantity</h4>
+            </header>
+            <div class="card-body">
+                <div class="card-header">
+                    <div class="form-group">
+                        <label asp-for="@Model.Product.Size">Select a size</label>
+                        <select class="form-control">
+                            <option>40</option>
+                            <option>41</option>
+                            <option>42</option>
+                            <option>42.5</option>
+                            <option>43</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <select asp-for="Product.Colour" class="form-control" asp-items="Html.GetEnumSelectList<EnumColours>()">
+                            <option value="">Select a colour</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="comments" asp-action="create" class="btn btn-primary m-1">Leave a comment</a>
+                    <a asp-controller="comments" asp-action="ProductComments" class="btn btn-primary m-1">All comments</a>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="products" asp-action="buyProduct" class="btn btn-primary m-1">Buy</a>
+                <a asp-controller="products" asp-action="products" class="btn btn-primary m-1">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

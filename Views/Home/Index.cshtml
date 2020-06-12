@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Player>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+
+
+@{
+    ViewBag.Title = "Home page";
+}
+
+<header class="bg-dark">
+    <img class="img-fluid d-block mx-auto" src="~/Images/ATP1.png" alt="">
+</header>
+<section class="bg-light">
+    <div class="container border-light">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="~/Images/mmm1.png" height="400" width="400" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-5">
+                    <h2 class="font-weight-bold">Your skills are our priority!</h2>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a class="btn btn-primary" style="width:auto" asp-action="create"
+                           asp-controller="players">Create your player</a>
+                    }
+                    else
+                    {
+                        <p class="text-danger">Please, login to read more..</p>
+                        <a class="btn btn-primary" style="width:auto" asp-action="login"
+                           asp-controller="Account">Login</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container border-light bg-light">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <div class="p-5">
+                    <img class="img-fluid rounded-pill" src="~/Images/allPlayers.jpg" height="500" width="400" />
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <div class="p-1">
+                    <h2 class="font-weight-bold">Tennis players in our club</h2>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a class="btn btn-primary" style="width:auto" asp-action="players"
+                           asp-controller="players">All Players</a>
+                    }
+                    else
+                    {
+                        <p class="text-danger">
+                            Please, login to have a full access to players' details!
+                        </p>
+                        <a class="btn btn-primary" style="width:auto" asp-action="login"
+                           asp-controller="Account">Login</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+

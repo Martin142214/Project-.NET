@@ -1,0 +1,59 @@
+﻿@model PlayerCreateViewModel
+
+@{
+    ViewBag.Title = "Create player";
+}
+
+<div style="background-image: url('../../Images/createPlayer.jpg'); background-repeat: no-repeat; background-size: cover; background-position:center;">
+<div class="container-fluid">
+    <h3 class="text-warning font-italic">Create your player :</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 bg-light">
+            <form asp-controller="players" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Points" class="control-label"></label>
+                    <input asp-for="Points" class="form-control" />
+                    <span asp-validation-for="Points" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>
+                    <select asp-for="Country" class="form-control" asp-items="Html.GetEnumSelectList<EnumCountries>()">
+                        <option value="">Select</option>
+                    </select>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a asp-controller="players" asp-action="players" class="btn btn-primary m-1">Back to list</a>
+                </div>
+            </form>
+            <div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@*@section scripts{ 
+<script>
+    $(Document).ready(function () {
+        $('.custom-file-input').on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    })
+</script>
+}*@
