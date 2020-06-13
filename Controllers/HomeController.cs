@@ -15,12 +15,6 @@ namespace WebApplication1.Controllers
 
     public class HomeController : Controller
     {
-        private IPlayerRepository _playerRepository;
-        public HomeController(IPlayerRepository playerRepository)
-        {
-            _playerRepository = playerRepository;
-        }
-
         public IActionResult Index()
         {
             return View();

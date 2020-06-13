@@ -14,14 +14,16 @@ namespace WebApplication1.Controllers
     {
         private ICommentRepository _commentRepository;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public CommentsController(ICommentRepository commentRepository, UserManager<IdentityUser> userManager)
+        public CommentsController(ICommentRepository commentRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _commentRepository = commentRepository;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
-        public IActionResult Comments(string searchString)
+        public async Task<IActionResult> ProductComments(string searchString)
         {
 
             var comment = _commentRepository.GetAllComments();
@@ -70,75 +72,7 @@ namespace WebApplication1.Controllers
             }
 
             return View();
-        }
-
-        [HttpGet]
-
-        public new ActionResult Delete(int? id)
-
-        {
-
-            var allComments = _commentRepository.GetAllComments();
-
-            Comments currentComment = allComments.Where(x => x.ID == id).FirstOrDefault();
-
-            var allUsers = userManager.Users;
-
-            IdentityUser currentUser = allUsers.Where(x => x.id == currentComment.ID).FirstOrDefault();
-
-            if (currentUser.ID != SessionDTO.ID && SessionDTO.IsAdmin == false)
-            {
-                return new ViewResult { ViewName = "InsufficientPermission" };
-            }
-
-            else
-
-            {
-
-                return base.Delete(id);
-
-            }
-
-        }
-
-        [HttpPost]
-
-        public new ActionResult Delete(int id)
-
-        {
-
-            List<Comments> allComments = UnitOfWork.UOW.CommentRepository.GetAll();
-
-            Comments currentComment = allComments.Where(x => x.ID == id).FirstOrDefault();
-
-            List<Users> allUsers = UnitOfWork.UOW.UserRepository.GetAll();
-
-            Users currentUser = allUsers.Where(x => x.ID == currentComment.User.ID).FirstOrDefault();
-
-            if (currentUser.ID != SessionDTO.ID && SessionDTO.IsAdmin == false)
-
-            {
-
-                return new ViewResult { ViewName = "InsufficientPermission" };
-
-            }
-
-            else
-
-            {
-
-                List<News> allNews = UnitOfWork.UOW.NewsRepository.GetAll();
-
-                News currentNews = allNews.Where(x => x.ID == NewsDTO.NewsID).FirstOrDefault();
-
-                UnitOfWork.UOW.CommentRepository.Delete(id);
-
-                UnitOfWork.UOW.Save();
-
-                return RedirectToAction("Details", "News", currentNews);
-
-            }
-
-        }
+        }       
+        
     }
 }

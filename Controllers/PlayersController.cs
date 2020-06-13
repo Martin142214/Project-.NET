@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
@@ -14,9 +16,11 @@ namespace WebApplication1.Controllers
     public class PlayersController : Controller
     {
         private IPlayerRepository _playerRepository;
-        public PlayersController(IPlayerRepository playerRepository)
+        private readonly IHostingEnvironment hostingEnvironment;
+        public PlayersController(IPlayerRepository playerRepository, IHostingEnvironment hostingEnvironment)
         {
             _playerRepository = playerRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Players(string searchString)
@@ -132,7 +136,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-
+        [Authorize(Roles = "Admin")]
         public ViewResult Create()
         {
             return View();
@@ -143,6 +147,11 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
+                //string fileName = null;
+                //if (model.Photo != null)
+                //{
+                //    string uploadsPhoto = hostingEnvironment.ContentRootPath;
+                //}
                 Player player = new Player
                 {
 
