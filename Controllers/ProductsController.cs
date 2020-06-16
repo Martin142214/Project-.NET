@@ -3,25 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
+using WebApplication1.Services;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
 
         private IProductRepository _productRepository;
+        private AppDbContext context;
 
         public ProductsController(IProductRepository productRepository, AppDbContext context)
 
         {
             _productRepository = productRepository;
+            this.context = context;
         }
 
         public IActionResult Products(string searchString)
@@ -82,13 +87,15 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        [HttpGet, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
         {
-            var movie = _productRepository.Delete(id);
-            return RedirectToAction(nameof(Index));
-        }
 
+            _productRepository.Delete(id);
+
+            return RedirectToAction("Products");
+        }
 
         public ViewResult ProductDetails(int id)
         {
@@ -102,11 +109,14 @@ namespace WebApplication1.Controllers
             return View(productDetailsViewModel);
         }
         [HttpPost]
-        public IActionResult BuyProduct(Products products)
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult BuyProduct(int id)
         {
-            if (ModelState.IsValid)
+            var product = context.Products.Find(id);
+            if (product.Quantity != 0)
             {
-                products.Quantity--;
+                product.Quantity--;
+                return RedirectToAction("productDetails", id);
             }
             return View();
         }
@@ -121,20 +131,39 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Create(ProductCreateViewModel model)
         {
+
+            Products product = new Products();
             if (ModelState.IsValid)
             {
-                Products product = new Products
+                if (model.Photo != null)
                 {
-                    ProductName = model.ProductName,
-                    Price = model.Price,
-                };
+                    ImageUploadServices services = new ImageUploadServices();
+                    string fileName = services.UploadImage(model);
+                    product.Photo = fileName;
+                }
+                product.ProductName = model.ProductName;
+                product.Price = model.Price;
+
+
+
                 Products newProduct = _productRepository.Add(product);
                 return RedirectToAction("Products", new { id = newProduct.Id });
             }
 
             return View();
-
-
         }
+
+
+
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteProduct(int id)
+        {
+            _productRepository.Delete(id);
+
+            return RedirectToAction("products");
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@ using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class PlayersController : Controller
     {
         private IPlayerRepository _playerRepository;
@@ -84,44 +84,17 @@ namespace WebApplication1.Controllers
             }
             return View(model);
         }
-        //[HttpGet]
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var player = _players.FirstOrDefault(m => m.Id == id);
 
-        //    if (player == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(player);
-        //}
-
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        [HttpGet, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
         {
-            var movie = _playerRepository.Delete(id);
-            return RedirectToAction(nameof(Index));
+
+           _playerRepository.Delete(id);
+          
+            return RedirectToAction("Players");
         }
-
-        //[HttpPost]
-        //public IActionResult Delete(Player player)
-        //{
-        //    var player1 = _playerRepository.GetPlayer(player.Id);
-        //    if (player1 != null)
-        //    {
-        //        _playerRepository.Delete(player1);
-
-        //    }
-        //    return RedirectToAction("Players");
-        //}
-        //[HttpGet]
-
 
         public ViewResult Details(int id)
         {
@@ -136,7 +109,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public ViewResult Create()
         {
             return View();
@@ -146,12 +118,7 @@ namespace WebApplication1.Controllers
         public IActionResult Create(PlayerCreateViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                //string fileName = null;
-                //if (model.Photo != null)
-                //{
-                //    string uploadsPhoto = hostingEnvironment.ContentRootPath;
-                //}
+            {              
                 Player player = new Player
                 {
 
